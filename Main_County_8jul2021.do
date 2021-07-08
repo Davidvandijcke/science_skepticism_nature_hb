@@ -18,7 +18,8 @@
 	clear
 	set more off
 	version 16
-	set scheme s1mono
+	set scheme s1mono, permanently
+	graph set window fontface "Garamond"
 	
 	// packages needed
 	ssc install reghdfe 
