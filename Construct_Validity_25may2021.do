@@ -19,15 +19,18 @@
 		}
 		else if c(username) == "antonvocalis"{
 			global dir "/home/antonvocalis/Dropbox (University of Michigan)/Documents/coronaScience" 	// DVD's directory
-		}	
+		} 
+		else {
+			global dir = "" // <- SET TO FOLDER IN WHICH PROGRAM FOLDER IS LOCATED
+		}
 
 
-			// Universal globals for figure/table output
-			global figs ${dir}/results/figs
-			global tabs "${dir}/results/tabs"
-			
-			// Log location
-			capture log ${dir}/raw/out			
+// Universal globals for figure/table output
+global figs ${dir}/results/figs
+global tabs "${dir}/results/tabs"
+
+// Log location
+capture log ${dir}/raw/out			
 	
 
 global datain "${dir}/raw/in/construct_validity"
@@ -35,6 +38,8 @@ global dataout "${dir}/raw/out"
 global figs "${dir}/results/figs"
 global tabs "${dir}/results/tabs"
 version 16
+
+
 
 ********************************************************************************
 *** Data Preparation
@@ -186,12 +191,6 @@ twoway (scatter science human_cc,  graphregion(color(white)) jitter(3) mcolor(bl
 		 (lfit science human_cc, lw(thick) lcolor(red%65) lpattern(solid) legend(off) ysize(3) xsize(4)) 
 graph export "${figs}/WVS_cc.pdf", replace
 
-*** WVS (science_opportunities) vs. Belief in Climate Change
-twoway (scatter science_opportunities human_cc,  graphregion(color(white)) jitter(3) mcolor(blue%60) lcolor(blue%60)  msize(medium) ///
-		ytitle("Trust in Science (WVS, opportunities)", size(medlarge) height(6)) ///
-		xtitle("Belief in Science (Howe et. al.), % of State", size(medlarge) height(6))) ///
-		 (lfit science_opportunities human_cc, lw(thick) lcolor(red%65) lpattern(solid) legend(off) ysize(3) xsize(4)) 
-graph export "${figs}/WVS_opp_cc.pdf", replace
 
 *** WVS (science_opportunities) vs. Belief in Climate Change
 twoway (scatter science_better_life human_cc,  graphregion(color(white)) jitter(3) mcolor(blue%60) lcolor(blue%60)  msize(medium) ///
@@ -200,12 +199,7 @@ twoway (scatter science_better_life human_cc,  graphregion(color(white)) jitter(
 		 (lfit science_better_life human_cc, lw(thick) lcolor(red%65) lpattern(solid) legend(off) ysize(3) xsize(4)) 
 graph export "${figs}/WVS_life_cc.pdf", replace
 
-*** WVS (science_opportunities) vs. Belief in Climate Change
-twoway (scatter science_important human_cc,  graphregion(color(white)) jitter(3) mcolor(blue%60) lcolor(blue%60)  msize(medium) ///
-		ytitle("Trust in Science (WVS, sci. important)", size(medlarge) height(6)) ///
-		xtitle("Belief in Science (Howe et. al.), % of State", size(medlarge) height(6))) ///
-		 (lfit science_important human_cc, lw(thick) lcolor(red%65) lpattern(solid) legend(off) ysize(3) xsize(4)) 
-graph export "${figs}/WVS_sciimportant_cc.pdf", replace
+
 
 *** Vaccination 2019 vs. Belief in Climate Change
 twoway (scatter p_nummmx2019 human_cc,  graphregion(color(white)) jitter(3) mcolor(blue%60) lcolor(blue%60)  msize(medium) ///
@@ -213,6 +207,8 @@ twoway (scatter p_nummmx2019 human_cc,  graphregion(color(white)) jitter(3) mcol
 		xtitle("Belief in Science  (Howe et. al.), % of State", size(medlarge) height(6))) ///
 		 (lfit p_nummmx2019 human_cc, lw(thick) lcolor(red%65) lpattern(solid) legend(off) ysize(3) xsize(4))
 graph export "${figs}/Vacc_cc.pdf", replace
+
+
 
 
 **** Graph of Pew Measure 
