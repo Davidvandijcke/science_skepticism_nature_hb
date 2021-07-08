@@ -13,6 +13,12 @@
 ************************
 ************************
 
+capture confirm variable dir
+if !_rc {
+global dir = dir[1] // assign directory based on variable passed from R
+}
+
+
 clear
 set more off
 version 16

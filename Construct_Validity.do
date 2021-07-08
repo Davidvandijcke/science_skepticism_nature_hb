@@ -10,6 +10,12 @@
 ************************
 ************************
 
+capture confirm variable dir
+if !_rc {
+global dir = dir[1] // assign directory based on variable passed from R
+}
+
+
 clear
 set more off
 version 16
@@ -25,22 +31,25 @@ set scheme s2color, permanently
 * SET WORKING DIRECTORY 
 *************************
 	
-		if c(username) == "austinlw"{
-			global dir "~/Dropbox/coronaScience"  														// ALW's directory
-		}
-		else if c(username) == "Adam"{
-			global dir "~/Dropbox/coronaScience"  														// AB's directory
+
+if c(username) == "austinlw"{
+	global dir "~/Dropbox/coronaScience"  														// ALW's directory
+}
+else if c(username) == "Adam"{
+	global dir "~/Dropbox/coronaScience"  														// AB's directory
+
+}
+else if c(username) == "Valentin"{
+	global dir "C:\Users\Valentin\Dropbox\coronaScience"  										// VK's directory
+}
+else if c(username) == "antonvocalis"{
+	global dir "/home/antonvocalis/Dropbox (University of Michigan)/Documents/coronaScience" 	// DVD's directory
+} 
+else {
+	global dir = "" // <- SET TO FOLDER IN WHICH PROGRAM FOLDER IS LOCATED
+}
 		
-		}
-		else if c(username) == "Valentin"{
-			global dir "C:\Users\Valentin\Dropbox\coronaScience"  										// VK's directory
-		}
-		else if c(username) == "antonvocalis"{
-			global dir "/home/antonvocalis/Dropbox (University of Michigan)/Documents/coronaScience" 	// DVD's directory
-		} 
-		else {
-			global dir = "" // <- SET TO FOLDER IN WHICH PROGRAM FOLDER IS LOCATED
-		}
+
 
 
 // Universal globals for figure/table output

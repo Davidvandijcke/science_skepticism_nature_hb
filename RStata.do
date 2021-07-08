@@ -1,3 +1,7 @@
+set more off
+use RStataDataIn
+capture noisily {
+/*RSTATA: cut me here*/
 ******************************************************************************
 ******************************************************************************
 * PROJECT: Belief in Science                                                 
@@ -12,6 +16,8 @@
 * VERSION CONTROL       
 ************************
 ************************
+
+global dir = dir[1] // <- SET TO FOLDER IN WHICH PROGRAM FOLDER IS LOCATED
 
 clear
 set more off
@@ -30,7 +36,8 @@ graph set window fontface "Garamond"
 *************************	
 * SET WORKING DIRECTORY 
 *************************
-	
+
+/*	
 if c(username) == "austinlw"{
 global dir "~/Dropbox/coronaScience"  														// ALW's directory
 }
@@ -44,9 +51,8 @@ global dir "C:\Users\Valentin\Dropbox\coronaScience"  										// VK's director
 else if c(username) == "antonvocalis"{
 global dir "/home/antonvocalis/Dropbox (University of Michigan)/Documents/coronaScience" 	// DVD's directory
 } 
-else {
-global dir = "" // <- SET TO FOLDER IN WHICH PROGRAM FOLDER IS LOCATED
-}
+*/
+
 
 
 // Universal globals for figure/table output
@@ -925,3 +931,6 @@ eststo clear
 
 
 
+/*RSTATA: cut me here*/
+} /* end capture noisily */
+exit, clear STATA
