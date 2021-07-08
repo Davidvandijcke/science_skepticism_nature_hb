@@ -37,7 +37,7 @@ redo_renv <- 0 # take a new snapshot of the libraries?
 source("00_prep.R") # load libraries etc
 source("01_fts.R") # load self-written functions
   
-#("11_safeGraphSDCounty.R") # get safeGraph data and aggregate it (uncomment to do again - !!TAKES A WHILE)
+#("10_safeGraphSDCounty.R") # 
 
 #source("12_compileDataCounty.R") # get data from all different sources - redo if any data changes, doesnt take long
                            # saves compiled "COVID.csv" to out folder

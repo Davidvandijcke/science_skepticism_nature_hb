@@ -3,6 +3,24 @@
 *
 * Authors: Adam Brzezinski, Valentin Kecht, David van Dijcke, Austin Wright
 ********************************************************************************
+
+************************
+************************
+* VERSION CONTROL       
+************************
+************************
+
+clear
+set more off
+version 16
+
+
+// set graph appearance
+graph set window fontface "Garamond"
+set scheme s2color, permanently
+
+
+
 *************************	
 * SET WORKING DIRECTORY 
 *************************
@@ -37,7 +55,7 @@ global datain "${dir}/raw/in/construct_validity"
 global dataout "${dir}/raw/out"
 global figs "${dir}/results/figs"
 global tabs "${dir}/results/tabs"
-version 16
+
 
 
 
@@ -178,8 +196,7 @@ save "${dataout}/merge.dta", replace
 ********************************************************************************
 
 graph drop _all
-graph set window fontface "Garamond"
-set scheme s2color
+
 
 use "${dataout}/merge.dta", clear
 

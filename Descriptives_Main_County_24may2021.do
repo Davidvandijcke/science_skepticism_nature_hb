@@ -10,38 +10,43 @@
 ************************
 ************************
 * VERSION CONTROL       
-* Written: 19 May 2021 
-* Updated: 20 May 2021 
 ************************
 ************************
 
-	clear
-	set more off
-	version 16
-	
-	// packages needed
-	ssc install carryforward 
-	ssc install shp2dta
-	ssc install spmap
+clear
+set more off
+version 16
+
+// packages needed
+ssc install carryforward 
+ssc install shp2dta
+ssc install spmap
+
+// set graph appearance
+graph set window fontface "Garamond"
 
 
 *************************	
 * SET WORKING DIRECTORY 
 *************************
-	
-		if c(username) == "austinlw"{
-			global dir "~/Dropbox/coronaScience"  														// ALW's directory
-		}
-		else if c(username) == "Adam"{
-			global dir "~/Dropbox/coronaScience"  														// AB's directory
-		
-		}
-		else if c(username) == "Valentin"{
-			global dir "C:\Users\Valentin\Dropbox\coronaScience"  										// VK's directory
-		}
-		else if c(username) == "antonvocalis"{
-			global dir "/home/antonvocalis/Dropbox (University of Michigan)/Documents/coronaScience" 	// DVD's directory
-		}	
+
+if c(username) == "austinlw"{
+	global dir "~/Dropbox/coronaScience"  														// ALW's directory
+}
+else if c(username) == "Adam"{
+	global dir "~/Dropbox/coronaScience"  														// AB's directory
+
+}
+else if c(username) == "Valentin"{
+	global dir "C:\Users\Valentin\Dropbox\coronaScience"  										// VK's directory
+}
+else if c(username) == "antonvocalis"{
+	global dir "/home/antonvocalis/Dropbox (University of Michigan)/Documents/coronaScience" 	// DVD's directory
+} 
+else {
+	global dir = "" // <- SET TO FOLDER IN WHICH PROGRAM FOLDER IS LOCATED
+}
+
 
 
 // Universal globals for figure/table output
@@ -190,6 +195,7 @@ graph export "${figs}/map_human.tif", replace width(1000)
 *** Descriptive plot: vaccines and science skepticism
 ****************************
 
+set scheme s1mono, permanently
 
 import excel "${dir}/raw/in/vaccines/county_week26_data_fixed.xlsx", sheet("county_week26_data_fixed") firstrow clear
 
@@ -205,8 +211,7 @@ drop _merge
 
 sort fips
 
-merge fips using "/Users/austinlw/Harris-Public-Policy Dropbox/Austin Wright/unmasking_partisanship/data/county_level/Trade_Data/master_county_std.dta"
-
+merge fips using "${dir}/raw/in/unmasking_partisanship/master_county_std.dta"
 	tab _merge
 	
 		rename _merge _trade
@@ -276,7 +281,7 @@ clear all
 ****************************
 
 
-
+set scheme s1mono, permanently
 
 
 import delimited "${dir}/raw/in/masks_county/mask-use-by-county.csv", clear

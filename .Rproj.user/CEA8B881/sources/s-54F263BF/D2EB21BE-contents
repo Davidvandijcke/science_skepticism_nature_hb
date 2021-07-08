@@ -19,8 +19,8 @@ if (!require("pacman")) install.packages("pacman", dependencies = TRUE)
 pacman::p_load(char = wants, character.only = TRUE)
 
 font_install("fontcm")
-# options("RStata.StataPath"='/usr/local/stata16/stata')
-# options("RStata.StataVersion" = stataVersion)
+options("RStata.StataPath"= RStata::chooseStataBin())
+options("RStata.StataVersion" = 16)
 
 {
 if (redo_renv) 
