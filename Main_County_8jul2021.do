@@ -20,6 +20,10 @@
 	version 16
 	set scheme s1mono
 	
+	// packages needed
+	ssc install reghdfe 
+	ssc install coefplot
+	
 *************************	
 * SET WORKING DIRECTORY 
 *************************
@@ -36,7 +40,10 @@
 		}
 		else if c(username) == "antonvocalis"{
 			global dir "/home/antonvocalis/Dropbox (University of Michigan)/Documents/coronaScience" 	// DVD's directory
-		}	
+		} 
+		else {
+			global dir = "" // <- SET TO FOLDER IN WHICH PROGRAM FOLDER IS LOCATED
+		}
 
 
 			// Universal globals for figure/table output
@@ -185,7 +192,7 @@ import delimited "${dir}/raw/out/COVID_County.csv", clear
 	
 	sort county_fips
 	
-	merge county_fips using "${dir}/raw/out/essential_workers.dta"
+	//merge county_fips using "${dir}/raw/out/essential_workers.dta"
 	
 	xtset ncounty date_smart
 		
@@ -527,7 +534,7 @@ eststo clear
 
 	coefplot (m1, label("Benchmark Model") ciopts(recast(rcap))) (m2, label("+ Voting") ciopts(recast(rcap))) (m3, label("+ Rural") ciopts(recast(rcap))) (m4, label("+ Education") ciopts(recast(rcap))) ///
 	(m5, label("+ Income") ciopts(recast(rcap))) (m6, label("+ Religiosity") ciopts(recast(rcap))) (m7, label("+ Inst. Health") ciopts(recast(rcap))) (m8, label("+ Govt. Policies") ciopts(recast(rcap))) ///
-	(m9, label("+ Local COVID") ciopts(recast(rcap))) (m10, label("+ State COVID") (m11, label("+ Essential Workers")  ciopts(recast(rcap))), ///
+	(m9, label("+ Local COVID") ciopts(recast(rcap))) (m10, label("+ State COVID") ciopts(recast(rcap))) (m11, label("+ Essential Workers")  ciopts(recast(rcap))), ///
 	keep(1.dd#1.BiS_High) coeflabel(1.dd#1.BiS_High = " ") xtitle("Estimated Coefficient: Shelter-in-Place Policy * Science Skepticism (Low)") ///
 	yline(0, lcolor(red)) vertical legend(ring(1) pos(1) col(4))
 
@@ -540,7 +547,7 @@ eststo clear
 
 
 
-
+/*
 
 
 **~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**
@@ -611,7 +618,7 @@ eststo clear
 
 
 
-
+*/
 
 
 

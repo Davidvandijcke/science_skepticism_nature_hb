@@ -22,17 +22,3 @@ embed_fonts(file.path(figs, paste(plotname, ".pdf", sep="")))
 
 
 
-
-#### MASKS AND BELIEF IN SCIENCE CORRELATION #### 
-
-masks <- unique(ggl, by = "countyFIPS")
-masks[, human := human / 100]
-
-ggplot(masks, aes(x = human, y = masks_ALWAYS)) + 
-  geom_point() + 
-  xlab("% Who Believe in Man-Made Climate Change") + 
-  ylab("% Who Always Wear Mask Within 6 ft.") + 
-  scale_y_continuous(labels = scales::percent) +
-  scale_x_continuous(labels = scales::percent) 
-
-

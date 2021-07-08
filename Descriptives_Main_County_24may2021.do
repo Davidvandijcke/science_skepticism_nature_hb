@@ -6,6 +6,25 @@
 ********************************************************************************
 ********************************************************************************
 
+
+************************
+************************
+* VERSION CONTROL       
+* Written: 19 May 2021 
+* Updated: 20 May 2021 
+************************
+************************
+
+	clear
+	set more off
+	version 16
+	
+	// packages needed
+	ssc install carryforward 
+	ssc install shp2dta
+	ssc install spmap
+
+
 *************************	
 * SET WORKING DIRECTORY 
 *************************
@@ -25,12 +44,12 @@
 		}	
 
 
-			// Universal globals for figure/table output
-			global figs ${dir}/results/figs
-			global tabs "${dir}/results/tabs"
-			
-			// Log location
-			capture log ${dir}/raw/out			
+// Universal globals for figure/table output
+global figs ${dir}/results/figs
+global tabs "${dir}/results/tabs"
+
+// Log location
+capture log ${dir}/raw/out			
 	
 
 
@@ -58,17 +77,21 @@ format date %td
 
 save "${dataout}/COVID_county.dta", replace
 
+
+
 ****************************
+*** Descriptives plot: jittered raw data
 ****************************
-*** Plots
-****************************
-****************************
+
+
 graph drop _all
 graph set window fontface "Garamond"
 set scheme s2color
 
 *** Data Prep
 use "${dataout}/COVID_county.dta", clear
+
+
 
 * Deviation from weekday-average in February
 gen dow = dow(date)
@@ -103,20 +126,17 @@ tw (scatter diff_pcthome date if diff_pcthome>=-30&diff_pcthome<=40, msize(vtiny
 
 graph export "${figs}/desc_all.tif", replace width(800)	
 		
-\\
 
+
+
+		
 ****************************
+*** Map: Belief in Anthropogenic Climate Change
 ****************************
-*** Maps
-****************************
-****************************
+		
+		
 
 *** Prepare Maps
-
-ssc install spmap
-//net install st0292.pkg
-//net install sg162.pkg
-ssc install shp2dta
 grmap, activate
 
 
@@ -148,16 +168,8 @@ gen sd_pcthome_diff = sd_pcthome_apr - sd_pcthome_mar
 collapse sd_pcthome_diff human democrat, by(_ID)
 drop if human == . 
 
-*** MAP1: PERCENT HOME
-replace sd_pcthome_diff = sd_pcthome_diff*100
-format sd_pcthome_diff %12.2f
 
-grmap sd_pcthome_diff using "${dataout}/xy", id(_ID) clnumber(5) ///
-	fcolor(red*0.8 red*0.3 yellow*0.1 yellow*0.4 yellow*0.8) ///
-	legstyle(2) lego(lohi) legcount legend(size(*2)) mosize(vvthin) osize(vthin)
-graph export "${figs}/map_pct_home.tif", replace width(1000) 	
 
-*** MAP3: HUMAN
 format human %12.2f
 
 grmap human using "${dataout}/xy", id(_ID) clnumber(5) fcolor(Greens) ///
