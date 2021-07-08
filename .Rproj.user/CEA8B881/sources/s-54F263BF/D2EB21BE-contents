@@ -1,0 +1,39 @@
+
+#****************************************************************************************************************************************************
+
+# PREPARE FOR ANALYSIS
+
+#****************************************************************************************************************************************************
+
+
+
+#### LOAD LIBRARIES ####
+sink("/dev/null") # load packages but suppress output
+wants <- c("tibble", "gdata", "reshape2", "dplyr", "stargazer", 
+           "zoo", "lubridate", "datetime", "plyr",  "foreach", "ggplot2", "extrafont",
+           "data.table",  "here", "devtools",  "urca", "openintro", "RcmdrMisc",
+           "purrr",  "pracma",  "RStata", "sandwich",
+           "readxl", "tidyr", "scales", "grid", "schoolmath", "gridExtra", "AER", 
+           "foreign", "stringr", "testit", "renv")
+if (!require("pacman")) install.packages("pacman", dependencies = TRUE)
+pacman::p_load(char = wants, character.only = TRUE)
+
+font_install("fontcm")
+# options("RStata.StataPath"='/usr/local/stata16/stata')
+# options("RStata.StataVersion" = stataVersion)
+
+{
+if (redo_renv) 
+  renv::snapshot(packages = wants)
+else 
+  renv::restore()
+}
+
+sink()
+
+
+
+
+
+
+ 

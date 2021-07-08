@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1615494275258.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "798CD324",
+    "lastKnownWriteTime" : 1624312167,
+    "last_content_update" : 1624312167572,
+    "path" : "~/Dropbox (University of Michigan)/Documents/coronaScience/programs/111_safeGraphSDCounty.R",
+    "project_path" : "111_safeGraphSDCounty.R",
+    "properties" : {
+        "cursorPosition" : "93,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1615503972820.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4206696843",
+    "id" : "9674DD83",
+    "lastKnownWriteTime" : 1616776602,
+    "last_content_update" : 1616776602,
+    "path" : "~/Dropbox (University of Michigan)/Documents/coronaScience/programs/20_analysis.R",
+    "project_path" : "20_analysis.R",
+    "properties" : {
+        "cursorPosition" : "14,31",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

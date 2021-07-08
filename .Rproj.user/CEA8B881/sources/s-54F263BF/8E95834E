@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1615494269484.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "8E95834E",
+    "lastKnownWriteTime" : 1625738814,
+    "last_content_update" : 1625738814527,
+    "path" : "~/Dropbox (University of Michigan)/Documents/coronaScience/programs/000_master.R",
+    "project_path" : "000_master.R",
+    "properties" : {
+        "cursorPosition" : "35,14",
+        "scrollLine" : "21"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

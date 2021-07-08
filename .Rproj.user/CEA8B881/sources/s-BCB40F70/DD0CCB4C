@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1621440112939.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3790949574",
+    "id" : "DD0CCB4C",
+    "lastKnownWriteTime" : 1624314958,
+    "last_content_update" : 1624314958,
+    "path" : "~/Dropbox (University of Michigan)/Documents/coronaScience/programs/13_compileDataCounty.R",
+    "project_path" : "13_compileDataCounty.R",
+    "properties" : {
+        "cursorPosition" : "15,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
