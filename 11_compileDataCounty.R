@@ -293,20 +293,7 @@ votes$democrat <- votes$candidatevotes_democrat / votes$votes_total
 votes$republican <- votes$candidatevotes_republican / votes$votes_total
 votes <- votes %>% dplyr::select(countyFIPS, democrat, republican, candidatevotes_democrat, candidatevotes_republican, votes_total)
 
-# get county to core based statistical area crosswalk (https://data.nber.org/data/cbsa-msa-fips-ssa-county-crosswalk.html)
-cw <- fread(file.path(datain, "pew_science", "cbsatocountycrosswalk2016.csv"))  
-setnames(cw, "fipscounty", "countyFIPS")
-cw <- cw[,c("cbsa", "countyFIPS")]
-
-votes_cbsa <- plyr::join(votes, cw) %>% setDT()
-
-votes_cbsa <- votes_cbsa[!is.na(cbsa)]
-votes_cbsa[!is.na(cbsa), democrat_cbsa := sum(candidatevotes_democrat, na.rm = TRUE) / sum(votes_total, na.rm = TRUE), by = c("cbsa")]
-votes_cbsa[!is.na(cbsa), republican_cbsa := sum(candidatevotes_republican, na.rm = TRUE) / sum(votes_total, na.rm = TRUE), by = c("cbsa")]
-votes_cbsa <- votes_cbsa[,c("countyFIPS", "democrat_cbsa", "republican_cbsa")]
-
 ggl <- plyr::join(ggl, votes)
-ggl <- plyr::join(ggl, votes_cbsa)
 
 
 ## Education

@@ -35,21 +35,20 @@ figs = file.path(dir, "results/figs")
 
 #### Step 0: prepare 
 redo_renv <- 0 # take a new snapshot of the libraries?
-source("00_prep.R") # load libraries etc
 source("01_fts.R") # load self-written functions
+source("00_prep.R") # load libraries etc
   
 #### Step 1: process data
-#source("10_safeGraphSDCounty.R") # aggregate raw safegraph data to county level
+# source("10_safeGraphSDCounty.R") # aggregate raw safegraph data to county level
 source("11_compileDataCounty.R") # combine aggregated sg data with other raw data
 
 
 #### Step 2: Analysis
+dir_dt <- data.table(dir = dir) # for passing directory to Stata
 
-Rstata::stata(file.path(dir, "programs", "Main_County.do"), data.in = data.table(dir = dir)) # main analysis 
-
-stata("sum dir", data.in = data.table(dir = dir))
-
-Rstata::stata()
+RStata::stata(file.path(dir, "programs", "Main_County.do"), data.in = dir_dt) # main analysis 
+RStata::stata(file.path(dir, "programs", "Descriptives_Main_County.do"), data.in = dir_dt) # produces descriptives and supplementary material
+RStata::stata(file.path(dir, "programs", "Construct_Validity.do"), data.in = dir_dt) # produces material for science skepticism construct validity
 
 source("20_analysis.R") # analysis done in R
 

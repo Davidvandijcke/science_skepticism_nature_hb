@@ -135,8 +135,9 @@ tw (scatter diff_pcthome date if diff_pcthome>=-30&diff_pcthome<=40, msize(vtiny
 		tlabel(01mar2020 08mar2020 15mar2020 22mar2020 29mar2020 05apr2020 12apr2020 19apr2020, format(%td_d_m)) ///
 		legend(off) ysize(3.8)
 
-graph export "${figs}/desc_all.tif", replace width(800)	
-		
+graph export "${figs}/desc_all.pdf", replace // width(800)	
+//graph export "${figs}/desc_all.tif", replace width(800)	
+
 
 
 
@@ -185,7 +186,8 @@ format human %12.2f
 
 grmap human using "${dataout}/xy", id(_ID) clnumber(5) fcolor(Greens) ///
 	legstyle(2) lego(lohi) legcount legend(size(*2)) mosize(vvthin) osize(vthin)
-graph export "${figs}/map_human.tif", replace width(1000)	
+graph export "${figs}/map_human.eps", replace width(1000)	
+//graph export "${figs}/map_human.tif", replace width(1000)	
 
 
 
