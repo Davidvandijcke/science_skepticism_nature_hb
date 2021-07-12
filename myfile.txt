@@ -1,0 +1,12 @@
+	(1)
+VARIABLES	Base case (mpg)
+	
+human_cc	0.331**
+	(0.135)
+Constant	6.49e-10
+	(0.133)
+	
+Observations	51
+R-squared	0.110
+Standard errors in parentheses	
+*** p<0.01, ** p<0.05, * p<0.1	

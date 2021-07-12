@@ -3,70 +3,38 @@
 *
 * Authors: Adam Brzezinski, Valentin Kecht, David van Dijcke, Austin Wright
 ********************************************************************************
-
-************************
-************************
-* VERSION CONTROL       
-************************
-************************
-
-capture confirm variable dir
-if !_rc {
-global dir = dir[1] // assign directory based on variable passed from R
-}
-
-
-clear
-set more off
-version 16
-
-
-// set graph appearance
-graph set window fontface "Garamond"
-set scheme s2color, permanently
-
-
-
 *************************	
 * SET WORKING DIRECTORY 
 *************************
 	
-
-if c(username) == "austinlw"{
-	global dir "~/Dropbox/coronaScience"  														// ALW's directory
-}
-else if c(username) == "Adam"{
-	global dir "~/Dropbox/coronaScience"  														// AB's directory
-
-}
-else if c(username) == "Valentin"{
-	global dir "C:\Users\Valentin\Dropbox\coronaScience"  										// VK's directory
-}
-else if c(username) == "antonvocalis"{
-	global dir "/home/antonvocalis/Dropbox (University of Michigan)/Documents/coronaScience" 	// DVD's directory
-} 
-else {
-	global dir = "" // <- SET TO FOLDER IN WHICH PROGRAM FOLDER IS LOCATED
-}
+		if c(username) == "austinlw"{
+			global dir "~/Dropbox/coronaScience"  														// ALW's directory
+		}
+		else if c(username) == "Adam"{
+			global dir "~/Dropbox/coronaScience"  														// AB's directory
 		
+		}
+		else if c(username) == "Valentin"{
+			global dir "C:\Users\Valentin\Dropbox\coronaScience"  										// VK's directory
+		}
+		else if c(username) == "antonvocalis"{
+			global dir "/home/antonvocalis/Dropbox (University of Michigan)/Documents/coronaScience" 	// DVD's directory
+		}	
 
 
-
-// Universal globals for figure/table output
-global figs ${dir}/results/figs
-global tabs "${dir}/results/tabs"
-
-// Log location
-capture log ${dir}/raw/out			
+			// Universal globals for figure/table output
+			global figs ${dir}/results/figs
+			global tabs "${dir}/results/tabs"
+			
+			// Log location
+			capture log ${dir}/raw/out			
 	
 
 global datain "${dir}/raw/in/construct_validity"
 global dataout "${dir}/raw/out"
 global figs "${dir}/results/figs"
 global tabs "${dir}/results/tabs"
-
-
-
+version 16
 
 ********************************************************************************
 *** Data Preparation
@@ -205,36 +173,25 @@ save "${dataout}/merge.dta", replace
 ********************************************************************************
 
 graph drop _all
-
+graph set window fontface "Garamond"
+set scheme s2color
 
 use "${dataout}/merge.dta", clear
 
 
 *** WVS vs. Belief in Climate Change
 twoway (scatter science human_cc,  graphregion(color(white)) jitter(3) mcolor(blue%60) lcolor(blue%60)  msize(medium) ///
-		ytitle("Trust in Science (WVS)", size(medlarge) height(6)) ///
+		ytitle("Belief in Science (WVS), standardized", size(medlarge) height(6)) ///
 		xtitle("Belief in Science (Howe et. al.), % of State", size(medlarge) height(6))) ///
 		 (lfit science human_cc, lw(thick) lcolor(red%65) lpattern(solid) legend(off) ysize(3) xsize(4)) 
 graph export "${figs}/WVS_cc.pdf", replace
 
-
-*** WVS (science_opportunities) vs. Belief in Climate Change
-twoway (scatter science_better_life human_cc,  graphregion(color(white)) jitter(3) mcolor(blue%60) lcolor(blue%60)  msize(medium) ///
-		ytitle("Trust in Science (WVS, healthier life)", size(medlarge) height(6)) ///
-		xtitle("Belief in Science (Howe et. al.), % of State", size(medlarge) height(6))) ///
-		 (lfit science_better_life human_cc, lw(thick) lcolor(red%65) lpattern(solid) legend(off) ysize(3) xsize(4)) 
-graph export "${figs}/WVS_life_cc.pdf", replace
-
-
-
 *** Vaccination 2019 vs. Belief in Climate Change
 twoway (scatter p_nummmx2019 human_cc,  graphregion(color(white)) jitter(3) mcolor(blue%60) lcolor(blue%60)  msize(medium) ///
 		ytitle("# MMR Shots First 36 Months, 2019", size(medlarge) height(6)) ///
-		xtitle("Belief in Science  (Howe et. al.), % of State", size(medlarge) height(6))) ///
+		xtitle("Belief in Science (Howe et. al.), % of State", size(medlarge) height(6))) ///
 		 (lfit p_nummmx2019 human_cc, lw(thick) lcolor(red%65) lpattern(solid) legend(off) ysize(3) xsize(4))
 graph export "${figs}/Vacc_cc.pdf", replace
-
-
 
 
 **** Graph of Pew Measure 
@@ -253,12 +210,16 @@ duplicates drop ncbsa, force
 collapse (mean) human sci_share_cbsa [fw = pop], by(state)
 
 
+//drop if (sci_share_cbsa == 1 | sci_share_cbsa == 0)
+
 // Pew Science Harmful vs. Belief in Climate Change
 twoway (scatter sci_share_cbsa human,  graphregion(color(white)) jitter(3) mcolor(blue%60) lcolor(blue%60)  msize(medium) ///
-		ytitle("Science Not Harmful (Pew)", size(medlarge) height(6)) ///
+		ytitle("Science Not Harmful (Pew), % of CBSA", size(medlarge) height(6)) ///
 		xtitle("Belief in Science (Howe et. al.), % of State", size(medlarge) height(6))) ///
 		 (lfit sci_share_cbsa human, lw(thick) lcolor(red%65) lpattern(solid) legend(off) ysize(3) xsize(4))
 graph export "${figs}/pew_cc_2009.pdf", replace
+
+
 
 **** Table with correlations
 
@@ -270,13 +231,12 @@ qui replace `var' = (`var' -r(mean))/r(sd)
 
 // Create table 
 label var sci_share_cbsa "Pew"
-rename human human_cc
-label var human_cc "Belief in Science"
 
-reg sci_share_cbsa human_cc
-outreg2 using "${tabs}/corr_wvs", replace tex(frag) se dec(3) nocons label nonotes
+reg sci_share_cbsa human
+outreg2 using "${tabs}/corr_wvs", replace tex se dec(3) nocons
 
 use "${dataout}/merge.dta", clear // get WVS data
+
 
 // Standardization
 foreach var of varlist scienc* human_cc p_nummmx* {
@@ -286,8 +246,6 @@ qui replace `var' = (`var' -r(mean))/r(sd)
 
 // Add to table with correlations
 
-label var human_cc "Belief in Science"
-label var science "PC"
 label var science_better_life "Life"
 label var science_opportunities "Opp."
 label var science_better_off "Better Off"
@@ -298,10 +256,40 @@ label var science_important "Import."
 foreach var of varlist science science_better_life science_opportunities  science_better_off science_faith science_faith2 science_important {
 reg `var' human_cc 
 
-outreg2 using "${tabs}/corr_wvs", append tex(frag) se dec(3) nocons label nonotes
+outreg2 using "${tabs}/corr_wvs", append tex se dec(3) nocons
 
 }
 
+
+ 
+********************************************************************************
+*** Density Plot Vaccination, by Party 
+********************************************************************************
+use "${dataout}/merge.dta", clear
+
+sum p_nummmx2007 if dem == 0, d
+local mean_1_2007 =  r(p50)
+sum p_nummmx2007 if dem == 1, d
+local mean_0_2007 =  r(p50)
+sum p_nummmx2019 if dem == 0, d
+local mean_1_2019 =  r(p50)
+sum p_nummmx2019 if dem == 1, d
+local mean_0_2019 =  r(p50)
+
+twoway (kdensity p_nummmx2007 if dem == 0, xtitle("") ytitle("Density", height(6)) graphregion(color(white)) lcolor(red%70)) ///
+		(kdensity p_nummmx2007 if dem == 1, legend(off) lcolor(blue%70) xline(`mean_1_2007', lpattern(dash) lcolor(red)) xline(`mean_0_2007',lpattern(dash) lcolor(blue)) ///
+		ysc(r(0[5]20)) xsc(r(0.85[0.05]1.05)) ylabel(0[5]20) xlabel(0.85[0.05]1.05)	title("2007", color(black)))   
+		graph save "Vacc_2007.gph", replace
+twoway (kdensity p_nummmx2019 if dem == 0, xtitle("") ytitle("Density", height(6))graphregion(color(white)) lcolor(red%70)) ///
+		(kdensity p_nummmx2019 if dem == 1, legend(off) lcolor(blue%70) xline(`mean_1_2019', lpattern(dash) lcolor(red)) xline(`mean_0_2019',lpattern(dash) lcolor(blue))  ///
+		ysc(r(0[5]20)) xsc(r(0.85[0.05]1.05)) ylabel(0[5]20) xlabel(0.85[0.05]1.05)	title("2019", color(black)))   
+		graph save "Vacc_2019.gph", replace
+
+graph combine Vacc_2007.gph Vacc_2019.gph, col(1) ysize(3) iscale(1.1) xsize(2) graphregion(color(white)) ycommon xcommon // combine 2007 and 2017 graphs
+graph export "${figs}/Vacc.pdf", replace
+
+erase "Vacc_2007.gph" 
+erase "Vacc_2019.gph"	
 		
 ********************************************************************************
 *** Density Plot Belief in Science, by Party 
@@ -364,5 +352,60 @@ erase `var'_5.gph
 erase `var'_6.gph
 erase `var'_7.gph
 
-}	 
+}
+
+
+********************************************************************************
+*** Scatter Plot Belief in Science vs. Mask Use 
+********************************************************************************
+
+import delim "${datain}/COVID_County.csv", clear
+set scheme s1mono
+
+keep countyfips human democrat republican human masks_never masks_rarely masks_sometimes masks_frequently masks_always masks_any
+duplicates drop
+
+gen dem = (democrat > republican) if democrat != . & republican !=  .
+
+replace masks_always = masks_always*100
+
+*** Baseline 
+foreach i in masks_always human {
+	sum `i',d
+	gen `i'_std= (`i'-r(mean))/r(sd)
+}
+
+reg masks_always_std  human_std 
+	local r2: display %5.2f e(r2)
+	
+tw (scatter masks_always_std  human_std, jitter(3) msymbol(oh) mcolor(blue%40) msize(tiny)) ///
+	(lfit masks_always_std  human_std, lcolor(red%65) legend(off) ytitle("Always Wears A Mask (standardized)", height(6)) ///
+	xtitle("Belief in Science (standardized, Howe et al. 2015)", height(6)) note("% of mask wearing explained by belief in science =`r2'" " ", justification(center)) ///
+	aspectratio(1) ysize(4) xsize(4) ylabel(-4[2]4) yscale(range(-4 4)))
+graph export "${figs}/masks_cc.pdf", replace
+
+
+
+*** Residuals 
+reg masks_always dem
+predict masks_always_res, resid 
+reg human dem 	 
+predict human_res, resid 
+
+foreach i in masks_always_res human_res {
+	sum `i',d
+	gen `i'_std= (`i'-r(mean))/r(sd)
+}
+
+reg masks_always_res_std human_res_std
+	local r2: display %5.2f e(r2)
+
+tw (scatter masks_always_res_std human_res_std, jitter(3) msymbol(oh) mcolor(blue%40) msize(tiny)) ///
+	(lfit masks_always_res_std human_res_std, lcolor(red%65) legend(off) ytitle("Always Wears A Mask (standardized)", height(6)) ///
+	xtitle("Belief in Science (standardized, Howe et al. 2015)", height(6)) note("% of mask wearing explained by belief in science =`r2'" ///
+	"(after residualizing for partisanship in 2016)", justification(center)) ///
+	aspectratio(1) ysize(4) xsize(4))
+graph export "${figs}/masks_cc_residuals.pdf", replace
+
+		 
 
