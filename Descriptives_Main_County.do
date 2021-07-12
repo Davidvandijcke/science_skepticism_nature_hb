@@ -186,7 +186,7 @@ format human %12.2f
 
 grmap human using "${dataout}/xy", id(_ID) clnumber(5) fcolor(Greens) ///
 	legstyle(2) lego(lohi) legcount legend(size(*2)) mosize(vvthin) osize(vthin)
-graph export "${figs}/map_human.eps", replace width(1000)	
+graph export "${figs}/map_human.eps"
 //graph export "${figs}/map_human.tif", replace width(1000)	
 
 

@@ -145,7 +145,7 @@ for (i in c("deaths", "confirmed")) {
   # merge with master data
   ggl <- plyr::join(ggl, cov,type="left", match="all")
   
-  fwrite(cov, file.path(dataout, paste("jh_c",i,sep="_")))
+  # fwrite(cov, file.path(dataout, paste("jh_c",i,sep="_")))
 }
 
 
@@ -175,7 +175,7 @@ for (i in c("deaths", "confirmed")) {
   
   # merge with master data
   ggl <- plyr::join(ggl, cov,type="left", match="all")
-  fwrite(cov, file.path(dataout, paste("jh_us",i,sep="_")))
+  #fwrite(cov, file.path(dataout, paste("jh_us",i,sep="_")))
 }
 
 
