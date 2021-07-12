@@ -1,7 +1,10 @@
 # Science Skepticism Reduces Compliance with COVID-19 Shelter-in-Place Policies
+
+<img src="./county_eventstudy_popweights_5.pdf" alt="hi" class="inline"/> <br/>
+
 Stata and R code to reproduce the main results in the paper.
 
-To reproduce the results from the main paper and the Supplementary Information, download the full repository from (openICPSR)[https://www.openicpsr.org/openicpsr/project/144861], open the Corona.Rproj R Project and run the 00_master.R script. Working installations of Stata and R are required. 
+To reproduce the results from the main paper and the Supplementary Information, download the full repository from [openICPSR](https://www.openicpsr.org/openicpsr/project/144861), open the Corona.Rproj R Project and run the 00_master.R script. Working installations of Stata and R are required. 
 
 The various R and Stata scripts are described below.
 
