@@ -557,78 +557,69 @@ eststo clear
 
 
 
-/*
-
-
+	
 **~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**
 **~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**
-** POP WEIGHTED EVENT STUDY DESIGN: DROP FULL TIME WORKERS FROM DENOMINATOR
+// POP WEIGHTED POOLED EVENT STUDY DESIGN: no full-time workers
 **~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**
 **~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~**
 
 eststo clear
 
-global fmla sd_pcthome_noft 
-
-
-foreach v in BiS_High BiS_Low {
-	
-	eststo m`v': reghdfe $fmla ago0-ago6 ago8-ago$cut if `v' == 1 [aweight=pop], ///
-		absorb(i.ncounty i.date_smart) /// 
-		vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
-	
+	eststo m1: quietly reghdfe sd_pcthome dd 1.dd#1.BiS_High [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
 	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
-}
 
-coefplot (mBiS_High, label("Science Skepticism = Low") color(blue%75) recast(connected) ciopts(recast(rcap) color(blue%50))) (mBiS_Low, label("Science Skepticism = High") color(gray%75) recast(connected) ciopts(recast(rcap) color(gray%50))), ///
-	legend(ring(0) pos(10) col(1)) vertical keep(ago*) level(95) yline(0) ///
-	xtitle("Days since Shelter-in-Place Policy") ytitle("DiD Coefficient") ///
-	coeflabels(ago0 = "-10" ago1 = "-9" ago2 = "-8" ago3 = "-7" ago4 = "-6" ago5 = "-5" ago6 = "-4" ago8 = "-2" ago9 = "-1" ago10 = "0" /// 
-	ago11 = "1" ago12 = "2" ago13 = "3" ago14 = "4" ago15 = "5" ago16 = "6" ago17 = "7" ago18 = "8" ago19 = "9" ago20 = "10") ///
-	xline(9.5, lc(cranberry)  lpattern(dash) lw(medthin))
-
-	graph export "${figs}/county_eventstudy_popweights_noft__$add.pdf", replace
-
-	estout mBiS_High mBiS_Low using "${tabs}/county_eventstudy_popweights_$add.tex", mlabels(none) ///
-	replace cells((b(fmt(3) label("Coeff.")) se( fmt(3) label("SE")) p( fmt(3) label("p-val.")) t(fmt(2) label("t-Stat.")))) style(tex) ///
-	title(\caption{Event-Study Approach, Full Results} \label{fig:lockdown_response_table}) label ///
-	prehead(\begin{tabular}{lcccccccc} \hline \hline \rule{0pt}{3ex} & \multicolumn{4}{c}{Low Science Skepticism} & \multicolumn{4}{c}{High Science Skepticism} \\ \cline{2-5} \cline{6-9} \rule{0pt}{3ex} & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8)  \\) ///
-	posthead(\hline ) prefoot(\hline \\) postfoot( \hline \end{tabular}) ///
-	stats(r2 df N, fmt(3 0 0) label("R\textsuperscript{2}" "Degrees of Freedom" "Observations"))
-
-eststo clear
-
-foreach v in BiS_High BiS_Low {
-	
-	eststo m`v': reghdfe $fmla ago0-ago$cut if `v' == 1 [aweight=pop], ///
-		absorb(i.ncounty i.date_smart) /// 
-		vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
-
+	eststo m2: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
 	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
-}
 
-coefplot (mBiS_High, label("Science Skepticism = Low") color(blue%75) recast(connected) ciopts(recast(rcap) color(blue%50))) (mBiS_Low, label("Science Skepticism = High") color(gray%75) recast(connected) ciopts(recast(rcap) color(gray%50))), ///
-	legend(ring(0) pos(10) col(1)) vertical keep(ago*) level(95) yline(0) ///
-	xtitle("Days since Shelter-in-Place Policy") ytitle("DiD Coefficient") ///
-	coeflabels(ago0 = "-10" ago1 = "-9" ago2 = "-8" ago3 = "-7" ago4 = "-6" ago5 = "-5" ago6 = "-4" ago7 = "-3" ago8 = "-2" ago9 = "-1" ago10 = "0" /// 
-	ago11 = "1" ago12 = "2" ago13 = "3" ago14 = "4" ago15 = "5" ago16 = "6" ago17 = "7" ago18 = "8" ago19 = "9" ago20 = "10") ///
-	xline(10.5, lc(cranberry)  lpattern(dash) lw(medthin))
+	eststo m3: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump 1.dd#1.aboveMedrural [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
+	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
+
+	eststo m4: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump 1.dd#1.aboveMedrural 1.dd#1.aboveMedbachelor [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
+	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
+
+	eststo m5: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump 1.dd#1.aboveMedrural 1.dd#1.aboveMedbachelor 1.dd#1.aboveMedmdn_inc [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
+	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
+
+	eststo m6: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump 1.dd#1.aboveMedrural 1.dd#1.aboveMedbachelor 1.dd#1.aboveMedmdn_inc 1.dd#1.aboveMedreligion [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
+	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
+
+	eststo m7: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump 1.dd#1.aboveMedrural 1.dd#1.aboveMedbachelor 1.dd#1.aboveMedmdn_inc 1.dd#1.aboveMedreligion 1.dd#1.aboveMedinstitutionalhealth [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
+	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
+
+	eststo m8: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump 1.dd#1.aboveMedrural 1.dd#1.aboveMedbachelor 1.dd#1.aboveMedmdn_inc 1.dd#1.aboveMedreligion 1.dd#1.aboveMedinstitutionalhealth soe bus school [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
+	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
+
+	eststo m9: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump 1.dd#1.aboveMedrural 1.dd#1.aboveMedbachelor 1.dd#1.aboveMedmdn_inc 1.dd#1.aboveMedreligion 1.dd#1.aboveMedinstitutionalhealth soe bus school jh_confirmed jh_deaths [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
+	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
+
+	eststo m10: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump 1.dd#1.aboveMedrural 1.dd#1.aboveMedbachelor 1.dd#1.aboveMedmdn_inc 1.dd#1.aboveMedreligion 1.dd#1.aboveMedinstitutionalhealth soe bus school jh_confirmed jh_deaths jh_deaths_s jh_confirmed_s [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
+	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
+
+	eststo m11: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump 1.dd#1.aboveMedrural 1.dd#1.aboveMedbachelor 1.dd#1.aboveMedmdn_inc 1.dd#1.aboveMedreligion 1.dd#1.aboveMedinstitutionalhealth soe bus school jh_confirmed jh_deaths jh_deaths_s jh_confirmed_s  1.dd#c.jh_confirmed 1.dd#c.jh_deaths 1.dd#c.jh_confirmed_s 1.dd#c.jh_deaths_s [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
+	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
+
+	eststo m12: quietly reghdfe sd_pcthome_noft dd 1.dd#1.BiS_High 1.dd#1.trump 1.dd#1.aboveMedrural 1.dd#1.aboveMedbachelor 1.dd#1.aboveMedmdn_inc 1.dd#1.aboveMedreligion 1.dd#1.aboveMedinstitutionalhealth soe bus school jh_confirmed jh_deaths jh_deaths_s jh_confirmed_s  1.dd#c.jh_confirmed 1.dd#c.jh_deaths 1.dd#c.jh_confirmed_s 1.dd#c.jh_deaths_s 1.dd#c.proportion_essential  [aweight=pop], absorb(i.ncounty i.date_smart) vce(cluster i.ncounty i.date_smart i.nstate#i.week) nocons
+	estadd scalar df = e(N_full) -  e(df_a_nested) - e(df_m) 
+
+	coefplot (m1, label("Benchmark Model") ciopts(recast(rcap))) (m2, label("+ Voting") ciopts(recast(rcap))) (m3, label("+ Rural") ciopts(recast(rcap))) (m4, label("+ Education") ciopts(recast(rcap))) ///
+	(m5, label("+ Income") ciopts(recast(rcap))) (m6, label("+ Religiosity") ciopts(recast(rcap))) (m7, label("+ Inst. Health") ciopts(recast(rcap))) (m8, label("+ Govt. Policies") ciopts(recast(rcap))) ///
+	(m9, label("+ Local COVID") ciopts(recast(rcap))) (m10, label("+ State COVID") ciopts(recast(rcap))) (m11, label("+ SiP by COVID") ciopts(recast(rcap))) (m12, label("+ Essential Workers") ciopts(recast(rcap))), ///
+	keep(1.dd#1.BiS_High) coeflabel(1.dd#1.BiS_High = " ") xtitle("Estimated Coefficient: Shelter-in-Place Policy * Science Skepticism (Low)") ///
+	yline(0, lcolor(red)) vertical legend(ring(1) pos(1) col(4))
+
+	graph export "${figs}/county_pooleventstudy_popweights_expand_noft_$add.pdf", replace
 
 
-	graph export "${figs}/county_eventstudy_popweights_noft__nodrop_$add.pdf", replace
 
-	estout mBiS_High mBiS_Low using "${tabs}/county_eventstudy_popweights_nodrop_$add.tex", mlabels(none) ///
-	replace cells((b(fmt(3) label("Coeff.")) se( fmt(3) label("SE")) p( fmt(3) label("p-val.")) t(fmt(2) label("t-Stat.")))) style(tex) ///
-	title(\caption{Event-Study Approach, Full Results} \label{fig:lockdown_response_table}) label ///
-	prehead(\begin{tabular}{lcccccccc} \hline \hline \rule{0pt}{3ex} & \multicolumn{4}{c}{Low Science Skepticism} & \multicolumn{4}{c}{High Science Skepticism} \\ \cline{2-5} \cline{6-9} \rule{0pt}{3ex} & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8)  \\) ///
-	posthead(\hline ) prefoot(\hline \\) postfoot( \hline \end{tabular}) ///
-	stats(r2 df N, fmt(3 0 0) label("R\textsuperscript{2}" "Degrees of Freedom" "Observations"))
 
 eststo clear
 
 
 
-*/
+
+
+
 
 
 
@@ -766,21 +757,21 @@ import delimited "${dir}/raw/out/COVID_County.csv", clear
 
 // Define: global formula
 
-	global fmla sd_pcthome  
+global fmla sd_pcthome  
 	
 // Set: panel structure
 	
-	xtset ncounty date_smart
+xtset ncounty date_smart
 
-	gen county_fips = countyfips
-	
-	destring county_fips, force replace
-	
-	sort county_fips
-	
-	merge county_fips using "${dir}/raw/out/essential_workers.dta"
-	
-	xtset ncounty date_smart
+gen county_fips = countyfips
+
+destring county_fips, force replace
+
+sort county_fips
+
+merge county_fips using "${dir}/raw/out/essential_workers.dta"
+
+xtset ncounty date_smart
 		
 	
 
@@ -909,12 +900,6 @@ eststo clear
 
 
 }
-
-
-
-
-
-
 
 
 

@@ -135,7 +135,7 @@ tw (scatter diff_pcthome date if diff_pcthome>=-30&diff_pcthome<=40, msize(vtiny
 		tlabel(01mar2020 08mar2020 15mar2020 22mar2020 29mar2020 05apr2020 12apr2020 19apr2020, format(%td_d_m)) ///
 		legend(off) ysize(3.8)
 
-graph export "${figs}/desc_all.pdf", replace // width(800)	
+graph export "${figs}/desc_all.eps", replace // width(800)	
 //graph export "${figs}/desc_all.tif", replace width(800)	
 
 
@@ -186,7 +186,7 @@ format human %12.2f
 
 grmap human using "${dataout}/xy", id(_ID) clnumber(5) fcolor(Greens) ///
 	legstyle(2) lego(lohi) legcount legend(size(*2)) mosize(vvthin) osize(vthin)
-graph export "${figs}/map_human.eps"
+graph export "${figs}/map_human.eps", replace
 //graph export "${figs}/map_human.tif", replace width(1000)	
 
 
@@ -245,7 +245,7 @@ reghdfe resid_vaccine_std resid_human_std, a(absorb) vce(cluster fips)
 	
 tw (scatter resid_vaccine_std resid_human_std, jitter(3) mcolor(blue%40) msymbol(oh) msize(tiny)) (lfit resid_vaccine_std resid_human_std, lcolor(red%65) lpattern(solid)), legend(off) ytitle("Vaccine hesitancy (std., HPS April 2021)") xtitle(" Belief in Science (standardized, Howe et al. 2015)") note("% of vaccine hesitancy explained by science skepticism =`r2'") aspectratio(1) ysize(4) xsize(4)
 
-gr export "${dir}/results/figs/vaccine_BiS_resid.png", replace	
+gr export "${dir}/results/figs/vaccine_BiS_resid.eps", replace	
 	
 drop resid_vaccine _reghdfe_resid resid_human resid_vaccine_std resid_human_std
 	
@@ -274,7 +274,7 @@ reghdfe resid_vaccine_std resid_human_std, a(absorb) vce(cluster fips)
 	
 tw (scatter resid_vaccine_std resid_human_std, jitter(3) mcolor(blue%40) msymbol(oh) msize(tiny)) (lfit resid_vaccine_std resid_human_std, lcolor(red%65) lpattern(solid)), legend(off) ytitle("Vaccine hesitancy (std., HPS April 2021)") xtitle("Belief in Science  (standardized, Howe et al. 2015)") note("% of vaccine hesitancy explained by science skepticism =`r2'" "(after residualizing county partisanship)" ) aspectratio(1)  ysize(4) xsize(4)
 
-gr export "${dir}/results/figs/vaccine_BiS_residTrump.png", replace	
+gr export "${dir}/results/figs/vaccine_BiS_residTrump.eps", replace	
 		
 clear all	
 
@@ -334,7 +334,7 @@ reghdfe resid_masks_std resid_human_std, a(absorb) vce(cluster fips)
 	
 tw (scatter resid_masks_std resid_human_std, jitter(3) mcolor(blue%40) msymbol(oh) msize(tiny)) (lfit resid_masks_std resid_human_std, lcolor(red%65) lpattern(solid)), legend(off) ytitle("Mask Use (std., NYT July 2020)") xtitle("Belief in Science  (standardized, Howe et al. 2015)") note("% of mask use explained by science skepticism =`r2'") aspectratio(1) ysize(4) xsize(4)
 
-gr export "${dir}/results/figs/masks_BiS_resid.png", replace	
+gr export "${dir}/results/figs/masks_BiS_resid.eps", replace	
 
 drop resid_masks _reghdfe_resid resid_human resid_masks_std resid_human_std
 
@@ -363,4 +363,4 @@ reghdfe resid_masks_std resid_human_std, a(absorb) vce(cluster fips)
 	
 tw (scatter resid_masks_std resid_human_std, jitter(3) mcolor(blue%40) msymbol(oh) msize(tiny)) (lfit resid_masks_std resid_human_std, lcolor(red%65) lpattern(solid)), legend(off) ytitle("Mask Use (std., NYT July 2020)") xtitle("Belief in Science  (standardized, Howe et al. 2015)") note("% of mask use explained by science skepticism =`r2'" "(after residualizing county partisanship)" ) aspectratio(1)  ysize(4) xsize(4)
 
-gr export "${dir}/results/figs/masks_BiS_residTrump.png", replace	
+gr export "${dir}/results/figs/masks_BiS_residTrump.eps", replace	
