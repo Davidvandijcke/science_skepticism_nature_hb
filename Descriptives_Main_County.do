@@ -88,6 +88,27 @@ format date %td
 
 save "${dataout}/COVID_county.dta", replace
 
+						
+*************************			
+* PROCESS CC DATA
+*************************
+
+import delimited "${dir}/raw/out/COVID_County.csv", clear		
+	
+// Since this is a cross sectional measure, keeping on first date
+
+	keep if date=="2020-02-01"
+
+// Keeping only relevant data
+
+	keep countyfips human 	
+
+	rename countyfips fips
+	
+	sort fips
+	
+	save "${dir}/raw/out/cc_4_fips.dta", replace
+
 
 
 ****************************
