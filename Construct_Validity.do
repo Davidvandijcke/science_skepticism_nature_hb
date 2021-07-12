@@ -272,7 +272,7 @@ qui replace `var' = (`var' -r(mean))/r(sd)
 label var sci_share_cbsa "Pew"
 
 reg sci_share_cbsa human
-outreg2 using "${tabs}/corr_wvs", replace tex se dec(3) nocons
+outreg2 using "${tabs}/corr_wvs", replace tex(frag) se dec(3) nocons
 
 use "${dataout}/merge.dta", clear // get WVS data
 
