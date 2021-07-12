@@ -1,6 +1,6 @@
 # Science Skepticism Reduces Compliance with COVID-19 Shelter-in-Place Policies
 
-![plot](../figs/county_eventstudy_popweights_5.png)
+![plot](https://github.com/Davidvandijcke/science_skepticism_nature_hb/blob/master/figs/county_eventstudy_popweights_5.png)
 
 Stata and R code to reproduce the main results in the paper.
 
